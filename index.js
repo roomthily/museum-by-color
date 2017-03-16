@@ -34,7 +34,7 @@ slack.on('/museum', payload => {
   
   if (color === undefined) {
     // it's an invalid mood
-    let response = Object.assign({ channel: payload.user_id, text: 'Unsupported mood! :/' });
+    let response = Object.assign({ channel: payload.user_id, text: 'Unsupported mood ('+text+')! :/' });
     slack.send(response_url, response).then(res => { // on success
       console.log("Response sent to /museum slash command");
     }, reason => { // on failure
@@ -71,6 +71,7 @@ slack.on('/museum', payload => {
     // not 100% how reliable the "n" key is
     let img = imgs.n;
     
+    img.mood = text;
     img.title = obj.title;
     img.date = obj.date;
     img.obj_url = obj.url;
@@ -91,25 +92,46 @@ slack.on('/museum', payload => {
     // img = dict of img properties, modified with obj bits
     //       for the identification
     
-    let attachments = [{
+    var title = (img.title !== undefined) ? img.title : 'Title Unknown';
+    var date = (img.date !== undefined && img.date !== null) ? img.date : 'Unknown';
+    var creator = (img.producer !== undefined) ? img.producer : 'Artist Unknown';
+    var acc = (img.accession !== undefined) ? img.accession : 'Unknown';
+    
+    var fallback = `${title} (${date}); ${creator} (Accession Number: ${acc})`;
+    var message = `Some art for feeling ${img.mood}.`;
+    
+    let attachments = {
+      "fallback": message,
       "image_url":img.url,
-      "date": img.date,
+      "date": date,
       "title_link": img.obj_url,
       "color": '#' + img.color,
-    }];
+      "title": title,
+      "fields": [
+        {
+          "title": 'Producer',
+          "value": creator,
+          "short": true
+        },
+        {
+          "title": 'Accession Number',
+          "value": acc,
+          "short": true
+        },
+        {
+          "title": 'Date',
+          "value": date,
+          "short": true
+        },
+      ],
+      "footer": 'Thanks, Cooper Hewitt!'
+    };
     if (img.producer !== undefined) {
-      attachments[0].author_name = img.producer;
-      attachments[0].author_link = img.producer_url;
+      attachments['author_name'] = img.producer;
+      attachments['author_link'] = img.producer_url;
     }
     
-    var title = (img.title !== undefined) ? img.title : 'Title Unknown';
-    var date = (img.date !== undefined || img.date === 'null') ? img.date : 'unknown';
-    var creator = (img.producer !== undefined) ? img.producer : 'Artist Unknown';
-    var acc = (img.accession !== undefined) ? img.accession : 'unknown';
-    
-    var message = `${title} (${date}); ${creator} (Accession Number: ${acc})`;
-    
-    let response = Object.assign({ channel: payload.user_id, text: message, attachments: attachments });
+    let response = Object.assign({ channel: payload.user_id, text: message, attachments: [attachments] });
     slack.send(response_url, response).then(res => { // on success
       console.log("Response sent to /museum slash command");
     }, reason => { // on failure
@@ -139,7 +161,7 @@ function get_color(mood) {
     "tense": ['755E91', '915E61', '5E9190']
   };
   // console.log(d[mood]);
-  var i = get_rand(0, d[mood].length);
+  var i = get_rand(0, d[mood].length-1);
   return d[mood][i];
 }
 
