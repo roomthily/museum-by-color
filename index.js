@@ -34,12 +34,8 @@ slack.on('/museum', payload => {
   
   if (color === undefined) {
     // it's an invalid mood
-    let response = Object.assign({ channel: payload.user_id, text: 'Unsupported mood ('+text+')! :/' });
-    slack.send(response_url, response).then(res => { // on success
-      console.log("Response sent to /museum slash command");
-    }, reason => { // on failure
-      console.log("An error occurred when responding to /museum slash command: " + reason);
-    });
+    send_response(response_url, payload.user_id, 'Unsupported mood ('+text+')! :/' );
+    return;
   }
 
   // color = hex color without the hash
@@ -53,10 +49,10 @@ slack.on('/museum', payload => {
   axios.get(the_url)
   .then(function(response){
     let data = response.data;
-    console.log('number of objects: ' + data.objects.length);
     
     let objs = data.objects;
     if (objs.length < 1) {
+      send_response(response_url, payload.user_id, 'Oh no! No objects returned!');
       return;
     }
     
@@ -131,15 +127,12 @@ slack.on('/museum', payload => {
       attachments['author_link'] = img.producer_url;
     }
     
-    let response = Object.assign({ channel: payload.user_id, text: message, attachments: [attachments] });
-    slack.send(response_url, response).then(res => { // on success
-      console.log("Response sent to /museum slash command");
-    }, reason => { // on failure
-      console.log("An error occurred when responding to /museum slash command: " + reason);
-    });
+    // respond to slack with the artwork
+    send_response(response_url, payload.user_id, message, [attachments]);
   })
   .catch(function(err) {
     console.log('request error: ' + err.response.data);
+    send_response(response_url, payload.user_id, 'I\'m sorry! Something happened trying to get the art!');
   });
   
 });
@@ -169,6 +162,15 @@ function get_rand(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function send_response(response_url, user_id, message, attachments=[]) {
+  let response = Object.assign({ channel: user_id, text: message, attachments: attachments });
+  slack.send(response_url, response).then(res => { // on success
+    console.log("Response sent to /museum slash command");
+  }, reason => { // on failure
+    console.log("An error occurred when responding to /museum slash command: " + reason);
+  });
 }
   
 // incoming http requests
