@@ -1,6 +1,6 @@
 # Cooper Hewitt Art by Color Slack Slash Command
 
-The slash command let's you ping Cooper Hewitt's collection API for a piece of art based on mood.
+The slash command let's you ping [Cooper Hewitt's collection](https://collection.cooperhewitt.org/) API for a piece of art based on mood.
 
 
 
@@ -8,7 +8,7 @@ The slash command let's you ping Cooper Hewitt's collection API for a piece of a
 To get started you need to:
 - Add a Slash Command configuration to your Slack integrations
 - Copy the generated Command Token
-- Add your Cooper Hewitt API token ato the `.env` file
+- Add your [Cooper Hewitt API token](https://collection.cooperhewitt.org/api/) to the `.env` file
 
 For more detailed setup instructions, see `setup.md`.
 
