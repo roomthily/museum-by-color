@@ -22,7 +22,9 @@ $ /museum { Hi || Hello || Hey }! I'm feeling { mood }.
 mood:
 - happy
 - bummed
+- anxious
 - electric
+- eager
 - stoked
 - goofy
 - giggly
@@ -30,7 +32,15 @@ mood:
 - tired
 - caffeinated
 - focused
+- relieved
 - relaxed
 - tense
+- intrigued
+- content
+- satisfied
+- melancholy
+- hurt
+- overwhelmed
+- delighted
 
-It will randomly select one of the first 50 (max) objects so you may see duplicates. And, unless you remix, you're stuck with my mood->color notions ¯\\_(ツ)_/¯.
+It will randomly select one of the first 50 (max) objects so you may see duplicates. And, unless you remix, you're stuck with my mood->color notions ¯\\_(ツ)_/¯. No matter how you go, can guarantee you'll see some new art and make your day better.
