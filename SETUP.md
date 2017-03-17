@@ -14,7 +14,7 @@ Copy the token value for your [Cooper Hewitt API token](https://collection.coope
 That's all of the setup required to get the Slash Command working. To try it out, type the slash command `/museum Hi! I'm feeling caffeinated.`, and you'll get a random piece of art back in Slack. 
 
 ## Adjust the color mappings to mood as you like
-The colors of the Cooper Hewitt collections are in the ch_css4.json file and there's a dict of color bins to moods in the code. Adjust the mood mapping or add more to suit your own tastes.
+The colors of the [Cooper Hewitt collections](https://collection.cooperhewitt.org/objects/colors/palettes/css4/) are in the ch_css4.json file and there's a dict of color bins to moods in the code. Adjust the mood mapping or add more to suit your own tastes.
 
 
 #### Wrap Up

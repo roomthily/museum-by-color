@@ -1,11 +1,11 @@
 {
-	"name": "slack-onboarding-example",
+	"name": "Cooper Hewitt Art by Color Slack Slash Command",
 	"version": "1.0.0",
-	"description": "Example onboarding bot using Slack's Event API",
+	"description": "Slackk slash command to add art from Cooper Hewitt based on your mood.",
 	"scripts": {
 		"start": "node index.js"
 	},
-	"author": "John Agan <jagan@slack-corp.com>",
+	"author": "Soren Scott",
 	"dependencies": {
 		"axios": "^0.13.1",
 		"ws": "^1.1.1",
